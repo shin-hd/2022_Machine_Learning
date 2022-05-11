@@ -49,7 +49,7 @@ class EM:
         self.sigma = np.zeros((3,4,4)) 
         self.pi = np.zeros((3))
         
-    def initialization(self): # your parameter here): 
+    def initialization(self, clusters): # your parameter here): 
         """ 1.initialization, 10 points
         Initial values for mean, sigma, and pi should be assigned.
         It have a significant impact on performance.
@@ -63,13 +63,15 @@ class EM:
         
         # 각 cluster별 mean, covariance 계산
         for i in range(self.n_clusters - 1):
+            clusters.append([i])
             self.mean[i] = data[i]
             self.sigma[i] = np.cov(data[i])
             self.pi[i] = 1/r
+        clusters.append([i for i in range(2, r)])
         self.mean[self.n_clusters - 1] = np.mean(data[self.n_clusters:], 0)
         self.sigma[self.n_clusters - 1] = np.cov(np.transpose(data[self.n_clusters:]))
         self.pi[self.n_clusters - 1] = (r-self.n_clusters+1) / r
-        print(data - self.mean[0])
+        #print(data - self.mean[0])
         #print(self.mean)
         #print(self.sigma)
         #print(r-self.n_clusters+1)
@@ -119,14 +121,6 @@ class EM:
             self.mean[k] = np.mean(data[clusters[k]], 0)
             self.sigma[k] = np.cov(np.transpose(data[self.n_clusters:]))
             self.pi[self.n_clusters - 1] = len(clusters[k])/r
-        
-        # self.weights_, self.means_, self.covariances_ = _estimate_gaussian_parameters(
-        #     X, np.exp(log_resp), self.reg_covar, self.covariance_type
-        # )
-        # self.weights_ /= n_samples
-        # self.precisions_cholesky_ = _compute_precision_cholesky(
-        #     self.covariances_, self.covariance_type
-        # )
 
         return # something or nothing
         
@@ -139,7 +133,8 @@ class EM:
         your comment here
         """
         # your code here
-        self.initialization()
+        clusters = []
+        self.initialization(clusters)
         
         for _ in range(self.iteration):
             self.expectation()
@@ -178,8 +173,8 @@ if __name__ == '__main__':
     # Only data is used W/O labels beacause EM and Kmeans are unsupervised learning
     data = iris['data']
     
-    # # Unsupervised learning(clustering) using EM algorithm
-    # EM_model = EM(n_clusters=3, iteration=iteration)
+    # Unsupervised learning(clustering) using EM algorithm
+    EM_model = EM(n_clusters=3, iteration=iteration)
     # EM_pred = EM_model.fit()# your parameter here)
     # EM_pd = pd.DataFrame(data= np.c_[data, EM_pred], columns= iris['feature_names'] + ['labels'])
     # plotting()# your parameter here)
