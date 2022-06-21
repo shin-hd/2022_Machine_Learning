@@ -1,0 +1,25 @@
+# 꽃을 classify할 수 있는 naive bayesian classifier 빌드
+
+# 4 feature
+
+# 6개의 함수 빌드
+feature _normalization
+
+get _normal_parameter
+
+g et_prior_probability
+
+Gaussian_PDF 
+
+Gaussian_Log_PDF 
+
+Gaussian_NB
+
+# main_app.py로 꽃 분류 
+
+# .zip으로 압축해서 제출 
+iri s .csv
+main _app.py
+SHD.py (please change util. py to your name.py
+HW_01_2017202088.pdf <= report
+
